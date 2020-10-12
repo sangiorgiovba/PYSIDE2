@@ -1,0 +1,12 @@
+def update_tb(self, searchkey=''):
+        query = 'select * from Usuarios'
+        if searchkey and searchkey != '*':
+            query = f"select * from Usuarios where \
+            ID like '{searchkey}' or \
+            Nome like '{searchkey}%' or \
+            S_nome like '{searchkey}%'"
+        resultado = self.Mtos.run_query(query)
+        self.Mtos.print_in_TableWidget(
+            self.ui.Tw_Registros,
+            self.headerUsuarios,
+            resultado)

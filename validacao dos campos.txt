@@ -1,0 +1,24 @@
+self.data = [
+            le
+            for le in self.findChildren(QLineEdit)
+            if le.objectName() != "Le_Pesquisar"]
+        self.current_id = 0
+        self.headerUsuarios = self.Mtos.generate_Header_labels('Usuarios')
+        self.update_tb()
+        self.ui.Btn_Salvar.clicked.connect(self.save)
+        self.ui.Btn_Deletar.clicked.connect(self.delete)
+        self.ui.Btn_Editar.clicked.connect(self.edit)
+        self.ui.Btn_Atualizar.setEnabled(False)
+        self.ui.Btn_Atualizar.clicked.connect(lambda: self.save(True))
+        self.ui.Btn_Pesquisar.clicked.connect(lambda: self.update_tb(self.ui.Le_Pesquisar.text()))
+        only_text = QRegExpValidator(QRegExp('^[A-Za-z]{3,20}'))
+        self.ui.Le_Nome.setValidator(only_text)
+        self.ui.Le_Snome.setValidator(only_text)
+        self.ui.Le_Cargo.setValidator(only_text)
+        email = QRegExpValidator(QRegExp("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"))
+        self.ui.Le_Email.setValidator(email)
+        only_numbers = QRegExpValidator(QRegExp('^[0-9]{3,10}'))
+        self.ui.Le_Salario.setValidator(only_numbers)
+        for le in self.data:
+            le.textChanged.connect(self.check_changes)
+            le.textChanged.emit(le.text())
